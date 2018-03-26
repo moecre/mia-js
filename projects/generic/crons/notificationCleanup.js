@@ -63,7 +63,7 @@ Q.stopUnhandledRejectionTracking();
 var _recycleNotifications = function () {
     var removeAfter = 60; //in minutes
     var removeTimeLimit = new Date(Date.now() - (removeAfter * 60 * 1000));  // Removes notification after 1h
-    return NotificationModel.removeMany({
+    return NotificationModel.deleteMany({
         $or: [
             {
                 'status': 'rejected',
@@ -123,12 +123,12 @@ var _resetNotifications = function () {
 var _retryNotificationsTerminate = function () {
     return NotificationModel.updateMany({
         'status': 'retry',
-        'retry': {'$gt': 10}
+        'retry': {'$gt': 25}
     }, {
         '$set': {
             'status': 'rejected',
             'workerId': null,
-            'log': "Gave up after 10 retries"
+            'log': "Gave up after 25 retries"
         }
     }, {
         partial: true,

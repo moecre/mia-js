@@ -27,7 +27,7 @@ module.exports = {
      },*/
 
     // Maximum amount of time in milliseconds that the event queue is behind, before consider the application as too busy and reject incoming requests
-    maxLag: 100,
+    //maxLag: 100,
 
     server: {
         http: {
@@ -59,7 +59,12 @@ module.exports = {
 
     cronJobs: {
         enabled: true, // Enable/Disable cron jobs as a global setting
-        allowedHosts: [] // Define specific hosts (host names) to run cronjobs. Leave empty to start cron on any server running this application
+        allowedHosts: [], // Define specific hosts (host names) to run cronjobs. Leave empty to start cron on any server running this application
+        ensureIndexes: {
+            enabled: true,
+            startUp: true,
+            background: false
+        }
     },
 
 
@@ -88,25 +93,15 @@ module.exports = {
         mia: {
             url: 'mongodb://api:api@localhost:27017/mia',
             options: {
-                db: {
-                    w: 1 //write acknowledgement
-                },
-                server: {
-                    poolSize: 15
-                }
+                w: 1, //write acknowledgement
+                poolSize: 15
             }
         }
-        // Tests db
-        /*,tests: {
-         url: 'mongodb://api:api@localhost:27017/tests',
-         options: {
-         db: {
-         w: 1 //write acknowledgement
-         },
-         server: {
-         poolSize: 15
-         }
-         }
-         }*/
+    },
+    webpack: {
+        skip: true, // When TRUE whole webpack compilation is skipped
+        purge: false, // When TRUE prior bundle files will be purged before compiling
+        watchMode: false, // TRUE for development: Watching the files and pushing it to the client via HMR
+        verbose: false // When FALSE only some general info, warnings and errors are shown
     }
 };
